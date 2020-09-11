@@ -1,0 +1,15 @@
+{
+    "name": "tugrul/pgp",
+    "description": "PGP Utility Library",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Tuğrul Topuz",
+            "email": "tugrultopuz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Tugrul\\Pgp\\": "src/"}
+    },
+    "require": {}
+}

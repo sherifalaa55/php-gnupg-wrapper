@@ -7,6 +7,9 @@ namespace Tugrul\Pgp;
 class GnupgWrapper
 {
 
+    /**
+     * @var resource
+     */
     protected $handle;
 
     /**
@@ -38,21 +41,38 @@ class GnupgWrapper
         }
     }
 
-    public function addDecryptKey($fingerprint)
+    /**
+     * @param string $fingerprint
+     * @param null $passphrase
+     * @return bool
+     */
+    public function addDecryptKey($fingerprint, $passphrase = null)
     {
-        return gnupg_adddecryptkey($this->handle, $fingerprint);
+        return gnupg_adddecryptkey($this->handle, $fingerprint, $passphrase);
     }
 
-    public function addEncryptKey($fingerprint, $passphrase = null)
+    /**
+     * @param string $fingerprint
+     * @return bool
+     */
+    public function addEncryptKey($fingerprint)
     {
-        return gnupg_addencryptkey($this->handle, $fingerprint, $passphrase);
+        return gnupg_addencryptkey($this->handle, $fingerprint);
     }
 
+    /**
+     * @param string $plaintext
+     * @return string
+     */
     public function encrypt($plaintext)
     {
         return gnupg_encrypt($this->handle, $plaintext);
     }
 
+    /**
+     * @param string $ciphertext
+     * @return string
+     */
     public function decrypt($ciphertext)
     {
         return gnupg_decrypt($this->handle, $ciphertext);

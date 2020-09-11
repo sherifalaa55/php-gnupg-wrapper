@@ -4,7 +4,7 @@ include '../vendor/autoload.php';
 
 use Tugrul\Pgp\KeystoreManager;
 
-$keypairDir = getcwd() . '/keypair_' . time();
+$keypairDir = getcwd() . '/keypair_passphrase_' . time();
 
 mkdir($keypairDir);
 
@@ -15,8 +15,8 @@ try {
     $result = $manager->generateKey(
         'John Doe',
         'john.doe@example.com',
-        null,
-        strtotime('+5 days')
+        'testpass',
+        strtotime('+10 days')
     );
 
     if ($result === 0) {

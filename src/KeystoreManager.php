@@ -96,4 +96,23 @@ class KeystoreManager
         return $this->configuration;
     }
 
+    /**
+     * @return array
+     */
+    public function listKeys()
+    {
+        $prevEnv = getenv('GNUPGHOME');
+        putenv('GNUPGHOME=' . $this->keystoreDir);
+
+        // empty string means list all keys
+        $info = gnupg_keyinfo(gnupg_init(), '');
+
+        if ($prevEnv !== false) {
+            putenv('GNUPGHOME=' . $prevEnv);
+        } else {
+            putenv('GNUPGHOME');
+        }
+
+        return $info;
+    }
 }

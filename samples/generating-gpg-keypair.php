@@ -22,6 +22,8 @@ try {
         echo '----- key generation success -----', PHP_EOL;
         echo $manager->getCommandResult(), PHP_EOL;
         echo $manager->getConfiguration(), PHP_EOL;
+
+        // print_r($manager->listKeys());
     } else {
         echo '----- key generation fail -----', PHP_EOL;
         echo $manager->getCommandError(), PHP_EOL;

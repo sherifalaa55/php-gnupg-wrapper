@@ -15,6 +15,7 @@ try {
     $result = $manager->generateKey(
         'John Doe',
         'john.doe@example.com',
+        null,
         strtotime('+5 days')
     );
 

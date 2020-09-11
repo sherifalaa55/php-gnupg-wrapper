@@ -33,17 +33,23 @@ class KeystoreManager
         $this->keystoreDir = $keystoreDir;
     }
 
-    public function generateKey($name, $email, $expire = null)
+    public function generateKey($name, $email, $passphrase = null, $expire = null)
     {
         $config = [
-            '%no-protection', // keep keys without passphrase
             'Key-Type: default',
             'Subkey-Type: default',
             'Name-Real: ' . $name,
             'Name-Email: ' . $email,
             'Expire-Date: ' . (empty($expire) ? '0' : date('Ymd\THis', $expire)),
-            '%commit'
         ];
+
+        if (empty($passphrase)) {
+            array_unshift($config, '%no-protection');
+        } else {
+            $config[] = 'Passphrase: ' . $passphrase;
+        }
+
+        $config[] = '%commit';
 
         $process = proc_open('gpg --batch --generate-key', [
             ['pipe', 'r'],

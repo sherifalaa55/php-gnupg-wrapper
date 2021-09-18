@@ -2,7 +2,7 @@
 
 include '../vendor/autoload.php';
 
-use Tugrul\Pgp\KeystoreManager;
+use Sherifai\Pgp\KeystoreManager;
 
 $keypairDir = getcwd() . '/keypair_passphrase_' . time();
 

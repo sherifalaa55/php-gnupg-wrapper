@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tugrul\Pgp;
+namespace Sherifai\Pgp;
 
 
 class GnupgWrapper

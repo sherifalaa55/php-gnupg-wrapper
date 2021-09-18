@@ -2,8 +2,8 @@
 
 include '../vendor/autoload.php';
 
-use Tugrul\Pgp\GnupgWrapper;
-use Tugrul\Pgp\KeystoreManager;
+use Sherifai\Pgp\GnupgWrapper;
+use Sherifai\Pgp\KeystoreManager;
 
 $keypairDir = getcwd() . '/keypair_1599838940';
 

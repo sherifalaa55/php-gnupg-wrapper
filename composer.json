@@ -1,15 +1,15 @@
 {
-    "name": "tugrul/pgp",
+    "name": "sherifai/pgp",
     "description": "PGP Utility Library",
     "type": "library",
     "authors": [
         {
-            "name": "Tuğrul Topuz",
-            "email": "tugrultopuz@gmail.com"
+            "name": "Sherif Ismael",
+            "email": "sherif.alaa55@gmail.com"
         }
     ],
     "autoload": {
-        "psr-4": {"Tugrul\\Pgp\\": "src/"}
+        "psr-4": {"Sherifai\\Pgp\\": "src/"}
     },
     "require": {}
 }

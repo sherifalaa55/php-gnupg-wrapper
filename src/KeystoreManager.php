@@ -33,6 +33,18 @@ class KeystoreManager
         $this->keystoreDir = $keystoreDir;
     }
 
+    public function generateKeyPair($name, $email, $passphrase = null, $expire = null)
+    {
+        // generate keypair
+        $this->generateKey($name, $email, $passphrase, $expire);
+
+        // $kp = new KeyPair;
+        // $kp->setPublicKey($this->exportPublicKey($name));
+        // $kp->setPrivateKey($this->exportPrivateKey($name));
+
+        return $this->findKeyPair($name);
+    }
+
     public function generateKey($name, $email, $passphrase = null, $expire = null)
     {
         $config = [
@@ -78,6 +90,38 @@ class KeystoreManager
 
     }
 
+    public function exportPublicKey($userName)
+    {
+        $process = proc_open("gpg --export -a '{$userName}'", [
+            ['pipe', 'r'],
+            ['pipe', 'w'],
+            ['pipe', 'w'],
+        ], $pipes, dirname($this->keystoreDir), [
+            'GNUPGHOME' => $this->keystoreDir
+        ]);
+
+        $public = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+
+        return $public; 
+    }
+
+    public function exportPrivateKey($userName)
+    {
+        $process = proc_open("gpg --export-secret-key -a '{$userName}'", [
+            ['pipe', 'r'],
+            ['pipe', 'w'],
+            ['pipe', 'w'],
+        ], $pipes, dirname($this->keystoreDir), [
+            'GNUPGHOME' => $this->keystoreDir
+        ]);
+
+        $privateKey = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+
+        return $privateKey; 
+    }
+
     /**
      * @return string
      */
@@ -120,5 +164,29 @@ class KeystoreManager
         }
 
         return $info;
+    }
+
+    public function findKeyPair($username)
+    {
+        $keys = $this->listKeys();
+        $subkey = null;
+        $selectedKey = null;
+        foreach ($keys as $key) {
+            if ($key["uids"][0]["name"] == $username) {
+                foreach ($key["subkeys"] as $sub) {
+                    if ($sub['can_encrypt'] == true) {
+                        $selectedKey = $key;
+                        $subkey = $sub;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        $kp = new KeyPair;
+        $kp->setPublicKey($this->exportPublicKey($username));
+        $kp->setPrivateKey($this->exportPrivateKey($username));
+        $kp->setFingerPrint($subkey["fingerprint"]);
+        return $kp;
     }
 }

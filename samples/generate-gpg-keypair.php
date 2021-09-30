@@ -8,7 +8,7 @@ $keypairDir = getcwd() . '/keypair_' . time();
 
 mkdir($keypairDir);
 
-$manager = new KeystoreManager($keypairDir);
+$manager = new KeystoreManager("/tmp");
 
 try {
 
